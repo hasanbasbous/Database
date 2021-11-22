@@ -33,11 +33,15 @@ router.get('/', (req, res) => {
 router.get('/register', (req, res) => {
     if(req.session.email)
         res.render('index');
+    else
+        res.render('register');
 });
 
 router.get('/login', (req, res) => {
-    // if(req.session.email)
-     res.render('login');
+    if(req.session.email)
+     res.render('index');
+     else
+     res.render('login')
 });
 
 router.get('/search', (req, res) => {
