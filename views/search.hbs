@@ -10,11 +10,15 @@
 <body>
     <nav>
       {{!-- <h4>Node MySQL</h4> --}}
-      <ul><li><a href="/search">Search</a></li></ul>
-      <ul><li><a href="/trips">Trips</a></li></ul>
-      <ul><li><a href="/">Home</a></li>
-      <li><a href="/login">Login</a></li>
-      <li><a href="/register">Register</a></li></ul>
+      <ul>
+        <li><a href="/search">Search</a></li>
+        <li><a href="/share">Share</a></li>
+        <li><a href="/trips">Trips</a></li>
+      </ul>
+      <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/logout">Logout</a></li>
+      </ul>
     </nav>
 
     <div class="container-fluid" >
@@ -103,14 +107,13 @@
             {{#each results}}
             <tr>
               <td>{{this.id}}</td>
-                <td> {{this.source}} </td>
+              <td> {{this.source}} </td>
                <td> {{this.destination}} </td>
                <td>{{this.date}}</td>
                <td> {{this.time}}</td>
-               <td><button type="submit" class="btn" name="{{this.id}}">Request</input></td>
-               {{!-- <td>{{this.womenCheck}}</td> --}}
-               {{!-- <td><input</td> --}}
-               
+               <td><button type="submit" class="btn" name="tripId" value="{{this.id}}">Request</input></td>
+              <!-- no need to know which user clicked the button because it's in the session.userId --> 
+              <!-- I can't use id attr with td tag --> 
             </tr>
             {{/each}}
               </table>

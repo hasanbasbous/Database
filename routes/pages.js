@@ -12,13 +12,22 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
     if(req.session.loggedin){
-        console.log('logged in')
-        db.query('Select fname, lname FROM users WHERE email = ?', [req.session.email], async(error, results) => {
+        console.log(req.session.loggedin)
+        console.log(req.session.email)
+        db.query('Select * FROM users WHERE email = ?', [req.session.email], async(error, results) => {
             if(error)
                 console.log(error);
             else {
-                console.log(results);
-                res.render('index', results);
+                console.log('>> results: ',results);
+                var string = JSON.stringify(results);
+                console.log('>>string: ', string)
+                var json = JSON.parse(string);
+                console.log('>>json: ', json);
+                console.log('>> user.name: ', json[0].fname);
+                req.session.list = json;
+                req.session.userId = json[0].Id;
+                console.log(req.session.userId);
+                res.render('index', {fname: req.session.list[0].fname, lname: req.session.list[0].lname});
             }
         })
     } else {
@@ -31,28 +40,39 @@ router.get('/', (req, res) => {
 // })
 
 router.get('/register', (req, res) => {
-    if(req.session.email)
+    if(req.session.loggedin)
         res.render('index');
     else
         res.render('register');
 });
 
 router.get('/login', (req, res) => {
-    if(req.session.email)
+    if(req.session.loggedin)
      res.render('index');
      else
      res.render('login')
 });
 
 router.get('/search', (req, res) => {
-    res.render('search');
+    if(req.session.loggedin)
+     res.render('search');
+    else 
+     res.render('login')
+})
+
+router.get('/share', (req, res) => {
+    if(req.session.loggedin)
+     res.render('share');
+    else 
+     res.render('login')
 })
 
 router.get('/trips', (req, res) => {
-    console.log(req.body);
-    console.log(req.user);
+   if(req.session.loggedin) {
+    console.log(req.session.userId);
+    console.log(req.session.list[0].fname);
     const{id} = req.body;
-    let query = "SELECT * FROM Trips WHERE userId = id";
+    let query = "SELECT * FROM trips, users WHERE driverId = users.Id AND users.Id = '" + req.session.userId + "'";
     db.query(query, (error, results) => {
         if(error){
             console.log(error);
@@ -62,7 +82,9 @@ router.get('/trips', (req, res) => {
                 results
             });
         }
-    })
+    })}
+    else 
+        res.render('login')
 })
 
 

@@ -79,7 +79,7 @@ exports.register = (req, res) => {
                 console.log(error);
             } else {
                 console.log(results);
-                return res.render('register', {
+                return res.render('login', {
                     message: 'User registered'
                 });
             }

@@ -4,6 +4,7 @@ const path = require('path');
 const mysql = require("mysql"); //import mysql
 const dotenv = require("dotenv");
 const bcrypt = require('bcryptjs');
+var expressHbs =  require('express-handlebars');
 // const tripsController = require('../controllers/trips')
 // const bodyParser = require('body-parser');
 // const {check, validationResult} = require('express-validator')
@@ -19,6 +20,11 @@ const db = mysql.createConnection({
     database: process.env.DATABASE
 })
 
+var hbs = expressHbs.create({});
+
+hbs.handlebars.registerHelper('eq', function(a, b) {
+    return a !== b;
+  })
 
 const publicDirectory = path.join(__dirname, './public');
 app.use(express.static(publicDirectory));
@@ -54,16 +60,9 @@ app.get('/logout', function(req, res){
     res.redirect('/login');
   });
 
-//   app.use(function(req, res, exit) {
-    
-//     res.locals.loggedin = req.session.loggedin;
-//     console.log("logged in")
-//     exit();
-// })
-
 app.get('/', (req, res) => {
     if(req.session.loggedin){
-        console.log('logged in')
+        // console.log(req.session.loggedin)
         db.query('Select fname, lname FROM users WHERE email = ?', [req.session.email], async(error, results) => {
             if(error)
                 console.log(error);
@@ -77,28 +76,28 @@ app.get('/', (req, res) => {
     }
 });
 
-app.post('/auth', function(request, response) {
-	var email = request.body.email;
-	var password = request.body.password;
-	if (email && password) {
-		db.query('SELECT * FROM users WHERE email = ? AND password = ?', [email, password], async(error, results) =>  {
-			if(error){
-                console.log(error);
-            }
-            else if (results.length > 0) {
-				request.session.loggedin = true;
-				request.session.email = email;
-				response.redirect('/');
-			} else {
-				response.send('Incorrect email and/or Password!');
-			}			
-			response.end();
-		});
-	} else {
-		response.send('Please enter Email and Password!');
-		response.end();
-	}
-});
+// app.post('/auth', function(request, response) {
+// 	var email = request.body.email;
+// 	var password = request.body.password;
+// 	if (email && password) {
+// 		db.query('SELECT * FROM users WHERE email = ? AND password = ?', [email, password], async(error, results) =>  {
+// 			if(error){
+//                 console.log(error);
+//             }
+//             else if (results.length > 0) {
+// 				request.session.loggedin = true;
+// 				request.session.email = email;
+// 				response.redirect('/');
+// 			} else {
+// 				response.render('login');
+// 			}			
+// 			response.end();
+// 		});
+// 	} else {
+// 		response.send('Please enter Email and Password!');
+// 		response.end();
+// 	}
+// });
 
 
 

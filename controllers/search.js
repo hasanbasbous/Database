@@ -10,9 +10,8 @@ const db = mysql.createConnection({
 })
 
 exports.search = (req, res) => {
-    console.log(req.body);
-    const {id, src, dst, date, time} = req.body;
-    console.log(typeof(time))
+    console.log(req.session.list[0].email);
+    const {src, dst, date, time} = req.body;
     let query;
     if(date.length === 0)
         

@@ -9,17 +9,22 @@
 </head>
 <body>
     <nav>
-      <h4>Node MySQL</h4>
-      <ul><li><a href="/">Home</a></li> 
-        {{!-- <li><a href="/login">Login</a></li> --}}
+      {{!-- <h4>Node MySQL</h4> --}}
+      <ul>
+        <li><a href="/search">Search</a></li>
+        <li><a href="/share">Share</a></li>
+        <li><a href="/trips">Trips</a></li>
+      </ul>
+      <ul>
+      <li><a href="/">Home</a></li>
       <li><a href="/logout">Logout</a></li>
-      <li><a href="/register">Register</a></li></ul>
+      </ul>
     </nav>
 
     <div class="container mt-4"> <!-- marging top 4 -->
-      {{#if results}}
-        <h1>Hello {{fname}}  </h1>
-      {{/if}}
+
+      <h1>Hello {{fname}} {{lname}} </h1>
+
     </div>
 </body>
 </html>
