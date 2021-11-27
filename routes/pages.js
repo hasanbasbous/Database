@@ -5,6 +5,7 @@ const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_USER,
     password: '',
+    multipleStatements: true,
     database: process.env.DATABASE
 })
 
@@ -72,14 +73,18 @@ router.get('/trips', (req, res) => {
     console.log(req.session.userId);
     console.log(req.session.list[0].fname);
     const{id} = req.body;
-    let query = "SELECT * FROM trips, users WHERE driverId = users.Id AND users.Id = '" + req.session.userId + "'";
-    db.query(query, (error, results) => {
+    let query = "SELECT * FROM trips WHERE driverId = '" + req.session.userId + "'";
+    let query1 = "SELECT * FROM users WHERE Id = '" + req.session.userId + "'";
+    db.query("SELECT * FROM trips WHERE driverId = '" + req.session.userId + "'; SELECT * FROM trips, requests WHERE id = tripId AND userId = '" + req.session.userId + "'", (error, results) => {
         if(error){
             console.log(error);
         } else {
-            console.log(results);
+            // console.log(results[0]);
+            console.log(results[0]);
+            console.log("Results 1")
+            console.log(results[1]);
             res.render('trips', {
-                results
+                result0: results[0], result1: results[1]
             });
         }
     })}

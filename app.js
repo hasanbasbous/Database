@@ -1,79 +1,84 @@
-const express = require("express");
+const express = require('express');
 var session = require('express-session');
 const path = require('path');
-const mysql = require("mysql"); //import mysql
-const dotenv = require("dotenv");
+const mysql = require('mysql'); //import mysql
+const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
-var expressHbs =  require('express-handlebars');
+var expressHbs = require('express-handlebars');
 // const tripsController = require('../controllers/trips')
 // const bodyParser = require('body-parser');
 // const {check, validationResult} = require('express-validator')
 
-dotenv.config({ path: './.env'}) // ./ current dir
+dotenv.config({ path: './.env' }); // ./ current dir
 
 const app = express();
 
 const db = mysql.createConnection({
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: '',
-    database: process.env.DATABASE
-})
+	host: process.env.DATABASE_HOST,
+	user: process.env.DATABASE_USER,
+	password: '',
+	database: process.env.DATABASE,
+});
 
 var hbs = expressHbs.create({});
 
-hbs.handlebars.registerHelper('eq', function(a, b) {
-    return a !== b;
-  })
+hbs.handlebars.registerHelper('eq', function (a, b) {
+	return a !== b;
+});
 
 const publicDirectory = path.join(__dirname, './public');
 app.use(express.static(publicDirectory));
 
-app.use(session({
-	secret: 'secret',
-	resave: true,
-	saveUninitialized: true
-}));
+app.use(
+	session({
+		secret: 'secret',
+		resave: true,
+		saveUninitialized: true,
+	})
+);
 
-app.use(express.urlencoded( { extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.set('view engine', 'hbs');
 
 // const urlencodedParser = bodyParser.urlencoded({extended: false})
 
-db.connect( (error) => {
-    if(error) {
-        console.log(error)
-    } else {
-        console.log("MySQL Connected...")
-    }
-} )
+db.connect((error) => {
+	if (error) {
+		console.log(error);
+	} else {
+		console.log('MySQL Connected...');
+	}
+});
 
 //Define Routes
 app.use('/', require('./routes/pages'));
 
 app.use('/auth', require('./routes/auth'));
 
-app.get('/logout', function(req, res){
-    req.session.destroy();
-    res.redirect('/login');
-  });
+app.get('/logout', function (req, res) {
+	req.session.destroy();
+	res.redirect('/login');
+});
 
 app.get('/', (req, res) => {
-    if(req.session.loggedin){
-        // console.log(req.session.loggedin)
-        db.query('Select fname, lname FROM users WHERE email = ?', [req.session.email], async(error, results) => {
-            if(error)
-                console.log(error);
-            else {
-                console.log(results);
-                res.render('index', results);
-            }
-        })
-    } else {
-        res.render("login")
-    }
+	if (req.session.loggedin) {
+		// console.log(req.session.loggedin)
+		db.query(
+			'Select fname, lname FROM users WHERE email = ?',
+			[req.session.email],
+			async (error, results) => {
+				if (error) console.log(error);
+				else {
+					console.log(results);
+					res.render('index', results);
+				}
+			}
+		);
+	} else {
+		res.render('login');
+	}
 });
 
 // app.post('/auth', function(request, response) {
@@ -90,7 +95,7 @@ app.get('/', (req, res) => {
 // 				response.redirect('/');
 // 			} else {
 // 				response.render('login');
-// 			}			
+// 			}
 // 			response.end();
 // 		});
 // 	} else {
@@ -98,8 +103,6 @@ app.get('/', (req, res) => {
 // 		response.end();
 // 	}
 // });
-
-
 
 // router.get('/trips', tripsController)
 
@@ -133,5 +136,5 @@ app.get('/', (req, res) => {
 // })
 
 app.listen(5000, () => {
-    console.log("Server started on Port 5000");
-})
+	console.log('Server started on Port 5000');
+});
