@@ -35,6 +35,20 @@
                 <input required class="input-xlarge" name = "src" id="search-from" type="text" placeholder="Type the name of a place or address over here">
               </div>
             </div>
+            {{!-- <select id="start" name= "src">
+              <option value="chicago, il">Chicago</option>
+              <option value="st louis, mo">St Louis</option>
+              <option value="joplin, mo">Joplin, MO</option>
+              <option value="oklahoma city, ok">Oklahoma City</option>
+              <option value="amarillo, tx">Amarillo</option>
+              <option value="gallup, nm">Gallup, NM</option>
+              <option value="flagstaff, az">Flagstaff, AZ</option>
+              <option value="winona, az">Winona</option>
+              <option value="kingman, az">Kingman</option>
+              <option value="barstow, ca">Barstow</option>
+              <option value="san bernardino, ca">San Bernardino</option>
+              <option value="los angeles, ca">Los Angeles</option>
+          </select> --}}
 
             <!-- To -->
             <div class="control-group">
@@ -85,6 +99,17 @@
          </div>
          </fieldset>
          </form>
+
+         <div id="result" type='hidden'>
+          <ul class="list-group">
+            <li id="in_mile">Distance In Mile :</li>
+            <li id="in_kilo">Distance is Kilo:</li>
+            <li id='duration_text'>IN TEXT:</li>
+            {{!-- <li>IN MINUTES:</li>
+            <li>FROM:</li>
+            <li>TO:</li> --}}
+          </ul>
+        </div>
         
         </><!-- End Sidebar Content -->
         <div class="well" id="search-results">
@@ -128,7 +153,7 @@
       <div id="map" class="well"></div>
     </div>
   </div>
-  <script>
+  {{!-- <script>
         function initMap(){
           var options = {
             zoom:8, 
@@ -145,38 +170,8 @@
             map: map 
           })
         }
-      </script>
-      {{!-- <script>
-      function initMap() {
-        var directionsService = new google.maps.DirectionsService;
-        var directionsDisplay = new google.maps.DirectionsRenderer;
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 7,
-          center: {lat: 34.1156, lng: 35.6744}
-        });
-        directionsDisplay.setMap(map);
-
-        var onChangeHandler = function() {
-          calculateAndDisplayRoute(directionsService, directionsDisplay);
-        };
-        document.getElementById('search-from').addEventListener('change', onChangeHandler);
-        document.getElementById('search-to').addEventListener('change', onChangeHandler);
-      }
-
-      function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-        directionsService.route({
-          origin: document.getElementById('search-from').value,
-          destination: document.getElementById('search-to').value,
-          travelMode: 'DRIVING'
-        }, function(response, status) {
-          if (status === 'OK') {
-            directionsDisplay.setDirections(response);
-          } else {
-            window.alert('Directions request failed due to ' + status);
-          }
-        });
-      }
-    </script> --}}
+      </script> --}}
+     
       {{!-- <script>
         $(function () {
           var origin, destination, map;
@@ -231,11 +226,83 @@
                   }
               });
           }
-        </script> --}}
-      <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
-      {{!-- <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap">
       </script> --}}
+
+    <script>
+        function initMap() {
+          var directionsService = new google.maps.DirectionsService;
+          var directionsDisplay = new google.maps.DirectionsRenderer;
+          var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 7,
+            center: {lat: 34.1156, lng: 35.6744}
+          });
+          directionsDisplay.setMap(map);
+
+          calculateAndDisplayRoute(directionsService, directionsDisplay);
+          calculateDistance();
+          /*var onChangeHandler = function() {
+            calculateAndDisplayRoute(directionsService, directionsDisplay);
+          };
+          document.getElementById('search-from').addEventListener('change', onChangeHandler);
+          document.getElementById('search-to').addEventListener('change', onChangeHandler);*/
+        }
+
+        function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+          directionsService.route({
+            origin: 'Beirut, Lebanon',
+            destination: 'Byblos, Lebanon',
+            travelMode: 'DRIVING'
+          }, function(response, status) {
+            if (status === 'OK') {
+              directionsDisplay.setDirections(response);
+            } else {
+              window.alert('Directions request failed due to ' + status);
+            }
+          }); 
+        }
+          function calculateDistance(){
+            var DistanceMatrixService = new google.maps.DistanceMatrixService();
+            DistanceMatrixService.getDistanceMatrix(
+              {
+                origins: ['Beirut, Lebanon'],
+                destinations: ['Byblos, Lebanon'],
+                travelMode: google.maps.TravelMode["DRIVING"],
+                unitSystem: google.maps.UnitSystem.metric,
+                avoidHighways: false,
+                avoidTolls: false
+              }, save_results);
+          }
+          function save_results(response, status) {
+
+            if (status != google.maps.DistanceMatrixStatus.OK) {
+                $('#result').html(err);
+            } else {
+                var origin = response.originAddresses[0];
+                var destination = response.destinationAddresses[0];
+                if (response.rows[0].elements[0].status === "ZERO_RESULTS") {
+                    $('#result').html("Sorry , not available to use this travel mode between " + origin + " and " + destination);
+                } else {
+                    var distance = response.rows[0].elements[0].distance;
+                    var duration = response.rows[0].elements[0].duration;
+                    var distance_in_kilo = distance.value / 1000; // the kilo meter
+                    var distance_in_mile = distance.value / 1609.34; // the mile
+                    var duration_text = duration.text;
+                    console.log(duration)
+                    appendResults(distance_in_kilo, distance_in_mile, duration_text);
+                }
+            }
+        }
+        function appendResults(distance_in_kilo, distance_in_mile, duration_text) {
+            //$("#result").removeClass("hide");
+            $('#in_mile').html(" Distance in Mile: <span class='badge badge-pill badge-secondary'>" + distance_in_mile.toFixed(2) + "</span>");
+            $('#in_kilo').html("Distance in KM: <span class='badge badge-pill badge-secondary'>" + distance_in_kilo.toFixed(2) + "</span>");
+            $('#duration_text').html("Duration: <span class='badge badge-pill badge-success'>" + duration_text + "</span>");
+        }
+      </script>
+
+      <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDEbVLRg0FWK_OGv5VcBwN0xmlMh22FfU&callback=initMap"> 
+      </script>
       
 </body>
 
