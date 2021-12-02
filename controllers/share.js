@@ -19,9 +19,7 @@ exports.share = (req, res) => {
                 console.log(error);
             } else {
                 console.log(results);
-                return res.render('trips', {
-                    message: 'Trip added'
-                });
+                return res.redirect('/trips');
             }
         })
     }
