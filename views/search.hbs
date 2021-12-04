@@ -173,7 +173,6 @@
             center: {lat: 34.1156, lng: 35.6744}
           });
           directionsDisplay.setMap(map);
-
           //calculateAndDisplayRoute(directionsService, directionsDisplay);
           
           var onChangeHandler = function() {
@@ -183,7 +182,6 @@
           document.getElementById('from').addEventListener('change', onChangeHandler);
           document.getElementById('to').addEventListener('change', onChangeHandler);
         }
-
         function calculateAndDisplayRoute(directionsService, directionsDisplay) {
           directionsService.route({
             origin: document.getElementById('from').value,
@@ -212,7 +210,6 @@
               }, save_results);
           }
           function save_results(response, status) {
-
             if (status != google.maps.DistanceMatrixStatus.OK) {
                 $('#result').html(err);
             } else {
@@ -238,7 +235,7 @@
       </script>
 
       <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDEbVLRg0FWK_OGv5VcBwN0xmlMh22FfU&callback=initMap"> 
+        src="https://maps.googleapis.com/maps/api/js?key=API_KEY&callback=initMap"> 
       </script>
       
 </body>

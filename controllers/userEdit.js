@@ -21,7 +21,9 @@ exports.userEdit = (req, res) => {
             var statusM = "unchecked"
             var statusF = "checked"
         }
-    db.query(`SELECT email FROM users WHERE id != ${req.session.userId} AND email = ?`, [email] , async(error, results) => {
+    console.log('hasan')
+    console.log(req.session.userId)
+    db.query(`SELECT email FROM user WHERE id != ${req.session.userId} AND email = ?`, [email] , async(error, results) => {
         if(error){
             console.log(error);
         }
@@ -80,8 +82,8 @@ exports.userEdit = (req, res) => {
         // let hashedPassword = await bcrypt.hash(password, 8);
         // console.log(hashedPassword);
 
-        db.query("UPDATE user SET fname='" + fname + "', lname='" + lname + "', Email='" + email + "', password='" + password +
-         "', phoneNumber='" + phoneNumber + "', license=" + driversLicenseId + " ,gender='" + gender + "' WHERE id = " + req.session.userId, (error, results) => {
+        db.query("UPDATE user SET fname='" + fname + "', lname='" + lname + "', email='" + email + "', password='" + password +
+         "', phoneNumber='" + phoneNumber + "', license= '" + driversLicenseId + "' ,gender='" + gender + "' WHERE id = " + req.session.userId, (error, results) => {
             if(error){
                 console.log(error);
             } else {

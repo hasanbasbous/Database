@@ -55,8 +55,10 @@ router.get('/userEdit', (req, res) => {
             var statusF = "checked"
         }
         res.render('userEdit', {
-            fname: req.session.list[0].fname, lname: req.session.list[0].lname, 
-            email: req.session.list[0].email, password: req.session.list[0].password,
+            fname: req.session.list[0].fname, 
+            lname: req.session.list[0].lname, 
+            email: req.session.list[0].email,
+            password: req.session.list[0].password,
             phoneNumber: req.session.list[0].phoneNumber, 
             driversLicenseId: req.session.list[0].license, 
             statusM: statusM, 
