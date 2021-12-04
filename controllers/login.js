@@ -22,7 +22,7 @@ exports.login =
 	var email = request.body.email;
 	var password = request.body.password;
 	if (email && password) {
-		db.query('SELECT * FROM users WHERE email = ? AND password = ?', [email, password], async(error, results) =>  {
+		db.query('SELECT * FROM user WHERE email = ? AND password = ?', [email, password], async(error, results) =>  {
 			if(error){
                 console.log(error);
             }

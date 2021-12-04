@@ -16,14 +16,23 @@
         <li><a href="/trips">Trips</a></li>
       </ul>
       <ul>
-      <li><a href="/">Home</a></li>
       <li><a href="/logout">Logout</a></li>
       </ul>
     </nav>
 
     <div class="container mt-4"> <!-- marging top 4 -->
-
-      <h1>Hello {{fname}} {{lname}} </h1>
+      <div>
+        <ul>
+          <li><h1>Hello {{fname}} {{lname}} <a class="btn btn-secondary" href="/userEdit" role="button">Edit</a></h1></li>
+        </ul>
+        <ul>
+          <li><h4>Gender: {{gender}}</h4></li>
+          <li><h4>Your Email: {{email}} and Phone Number: {{phoneNumber}}</h4></li>
+          <li><h4>Your Driver's License: {{driversLicenseId}}</h4></li>
+        </ul>
+          
+      
+      </div>
 
     </div>
 </body>

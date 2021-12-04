@@ -22,8 +22,10 @@ exports.display = (req, res) => {
     console.log(req.body);
     console.log(req.body.tripId);
     console.log(req.session.userId)
+    const userId = req.session.userId;
+    const tripId = req.session.tripId;
 
-    db.query("SELECT * FROM requests WHERE userId = ? AND tripID = ?", [req.session.userId, req.body.tripId], async (error, results) => {
+    db.query("SELECT * FROM requests WHERE userId = ? AND tripID = ?", [req.session.userId, req.body.tripId], (error, results) => {
         if(error){
             console.log(error);
         }
@@ -32,20 +34,24 @@ exports.display = (req, res) => {
             return res.render('search', {
                 message: 'Trip already booked'
             });
-        } else {
+        }
+        // else {
 
     // let query = "SELECT * FROM Trips WHERE userId = '" + req.session.userId + "'";
     // const {tripId} = req.body;
     // const {tripId, source, destination} = req.body;
+    //console.log("userId " + userId)
+
     db.query("INSERT INTO requests SET ?",{userId: req.session.userId, tripId: req.body.tripId}, (error, results) => {
         if(error){
+            console.log("userId " + userId)
             console.log(error);
         } else {
             console.log(results);
             res.redirect('/trips');
         }
     })
-    }
+    //}
 })
 }
 

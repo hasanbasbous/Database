@@ -14,7 +14,7 @@ exports.register = (req, res) => {
 
     const { fname, lname, email,  password, passwordConfirm, phoneNumber, driversLicenseId, gender} = req.body;
 
-    db.query("SELECT email FROM users WHERE email = ?", [email], async (error, results) => {
+    db.query("SELECT email FROM user WHERE email = ?", [email], async (error, results) => {
         if(error){
             console.log(error);
         }
@@ -73,7 +73,7 @@ exports.register = (req, res) => {
         // let hashedPassword = await bcrypt.hash(password, 8);
         // console.log(hashedPassword);
 
-        db.query('INSERT INTO users SET ?', {fname: fname, lname: lname, Email: email, password: password, phoneNumber: phoneNumber, license: driversLicenseId, 
+        db.query('INSERT INTO user SET ?', {fname: fname, lname: lname, Email: email, password: password, phoneNumber: phoneNumber, license: driversLicenseId, 
         gender: gender}, (error, results) => {
             if(error){
                 console.log(error);

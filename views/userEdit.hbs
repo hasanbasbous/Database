@@ -1,0 +1,120 @@
+<DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+      {{!-- <h4>Node MySQL</h4> --}}
+      <ul>
+        <li><a href="/search">Search</a></li>
+        <li><a href="/share">Share</a></li>
+        <li><a href="/trips">Trips</a></li>
+      </ul>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </nav>
+
+    <div class="container-narrow">
+        <!-- Main hero unit for a primary marketing message or call to action -->
+        <form class="form-horizontal well" id="userEdit" action="/auth/userEdit" method="post"  >
+          <fieldset>
+            <legend>Editing Form <a href="/" class="btn btn-secondary">Exit</a></legend>
+            
+            <!-- First Name -->
+            <div class="control-group">
+              <label class="control-label" for="userEdit-first-name">First Name</label>
+              <div class="controls">
+                <input type="text" class="input-large" id="userEdit-first-name" name="fname" value={{fname}}>
+                <br><small></small>
+              </div>
+            </div>
+            
+            <!-- Last Name -->
+            <div class="control-group">
+              <label class="control-label" for="userEdit-last-name">Last Name</label>
+              <div class="controls">
+                <input type="text" class="input-large" id="userEdit-last-name" name="lname" value={{lname}}>
+                <br><small></small>
+              </div>
+            </div>
+            
+            <!-- Email Address -->
+            <div class="control-group">
+              <label class="control-label" for="userEdit-email">Email Address</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" id="userEdit-email" name="email" value={{email}}>
+                <br><small></small>
+              </div>
+            </div>
+            
+            <!--  Password -->
+            <div class="control-group">
+              <label class="control-label" for="userEdit-password">Password</label>
+              <div class="controls">
+                <input type="password" class="input-medium" id="userEdit-password" name="password" value={{password}}>
+                <br><small></small>
+              </div>
+            </div>
+            
+            <!--  Repeat Password -->
+            <div class="control-group">
+              <label class="control-label" for="userEdit-repeat-password">Repeat Password</label>
+              <div class="controls">
+                <input type="password" class="input-medium" id="userEdit-repeat-password" name="passwordConfirm" value={{password}}>
+                <br><small></small>
+              </div>
+            </div>
+            
+            <!--  Phone Number -->
+            <div class="control-group">
+              <label class="control-label" for="userEdit-phone-number">Phone Number</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" id="userEdit-phone-number" name="phoneNumber" value={{phoneNumber}}>
+                <br><small></small>
+              </div>
+            </div>
+            
+            <!-- Driver's License ID -->
+            <div class="control-group">
+              <label class="control-label" for="userEdit-drivers-license-id">Driver's License ID</label>
+              <div class="controls">
+                <input type="text" class="input-xlarge" id="userEdit-drivers-license-id" name="driversLicenseId" value={{driversLicenseId}}>
+                <br><small></small>
+              </div>
+            </div>
+            
+            <!--  Gender -->
+            <div class="control-group">
+              <label class="control-label" for="userEdit-gender">Gender</label>
+              <div class="controls">
+                <label class="radio">
+                  <input type="radio" value="male" name="gender" id="userEdit-male" {{statusM}}>Male</label>
+                <label class="radio"><input type="radio" value="female" name="gender" id="userEdit-female" {{statusF}}>Female<br><small></small></label>
+                
+              </div>
+            </div>
+          
+            <!-- Submit button  -->
+             
+            <!--  Form Actions -->
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="updateBtn">Update</button>
+              <button type="reset" class="btn">Reset</button>
+            </div>
+          </fieldset>
+        </form>
+        {{#if message}}
+                <h6 class="alert alert-danger mt-1">{{message}}</h6>
+        {{/if}}
+    </div>
+  
+    {{!-- <script src="script1.js"></script> --}}
+</body>
+</html>
