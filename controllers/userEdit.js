@@ -79,16 +79,32 @@ exports.userEdit = (req, res) => {
         console.log(">>Results", JSON.stringify(results));
         // let hashedPassword = await bcrypt.hash(password, 8);
         // console.log(hashedPassword);
-
-        db.query("UPDATE user SET fname='" + fname + "', lname='" + lname + "', Email='" + email + "', password='" + password +
+        if (req.session.email != email) {
+            req.session.email = email;
+        }
+        db.query("UPDATE users SET fname='" + fname + "', lname='" + lname + "', Email='" + email + "', password='" + password +
          "', phoneNumber='" + phoneNumber + "', license=" + driversLicenseId + " ,gender='" + gender + "' WHERE id = " + req.session.userId, (error, results) => {
             if(error){
                 console.log(error);
             } else {
                 console.log(results);
-                return res.render('index', {fname, lname, email,
-                    phoneNumber, driversLicenseId, gender: gender.toUpperCase()
-                });
+                return  (
+                    res.render('index', {fname, lname, email,
+                        phoneNumber, driversLicenseId, gender: gender.toUpperCase()
+                    })
+                    
+                )
+            }
+        })
+        db.query(`SELECT email FROM users WHERE id != ${req.session.userId} AND email = ?`, [email], (error, results) => {
+            if(error){
+                console.log(error);
+            } else {
+                console.log(results);
+                return  (
+                    res.redirect('/')
+                    
+                )
             }
         })
     });

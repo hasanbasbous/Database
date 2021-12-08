@@ -14,12 +14,11 @@ exports.register = (req, res) => {
 
     const { fname, lname, email,  password, passwordConfirm, phoneNumber, driversLicenseId, gender} = req.body;
 
-    db.query("SELECT email FROM user WHERE email = ?", [email], async (error, results) => {
+    db.query("SELECT email FROM users WHERE email = ?", [email], async (error, results) => {
         if(error){
             console.log(error);
         }
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        const namePattern = /^[A-Za-z]+$/;
         const licensePattern = /^[0-9]{9}$/;
         const phonePattern = /^(03|7[016-9]|81)[0-9]{6}$/;
 
@@ -73,15 +72,13 @@ exports.register = (req, res) => {
         // let hashedPassword = await bcrypt.hash(password, 8);
         // console.log(hashedPassword);
 
-        db.query('INSERT INTO user SET ?', {fname: fname, lname: lname, Email: email, password: password, phoneNumber: phoneNumber, license: driversLicenseId, 
+        db.query('INSERT INTO users SET ?', {fname: fname, lname: lname, Email: email, password: password, phoneNumber: phoneNumber, license: driversLicenseId, 
         gender: gender}, (error, results) => {
             if(error){
                 console.log(error);
             } else {
                 console.log(results);
-                return res.render('login', {
-                    message: 'User registered'
-                });
+                return res.redirect('/car');
             }
         })
     });

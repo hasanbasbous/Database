@@ -27,34 +27,45 @@
             <div class="control-group">
               <label class="control-label" for="car-plate-num">Plate Number format (Letter + Numbers)</label>
               <div class="controls">
-                <input type="text" class="input-large" id="car-plate-num" name="plateNum">
+                <input type="text" class="form-control input-large" id="car-plate-num" name="plateNum">
                 <br><small></small>
               </div>
             </div>
             
             <!-- Car Brand -->
-            <div class="control-group">
-              <label class="control-label" for="car-brand">Car Brand</label>
+            <div class="control-group dropdown show">
+              <label class=" control-label" for="car-brand">Car Brand</label>
               <div class="controls">
-                <input type="text" class="input-large" id="car-brand" name="carBrand">
+                <select type="text" class=" form-control input-large" id="car-brand" name="carBrand">
+                  <option value="None">None</option>
+                  <option value="BMW">BMW</option>
+                  <option value="Daewoo">Daewoo</option>
+                  <option value="Ford">Ford</option>
+                  <option value="Holden">Holden</option>
+                  <option value="Honda">Honda</option>
+                  <option value="Hyndai">Hyundai</option>
+                  <option value="Mercedes">Mercedes</option>
+                  <option value="Kia">Kia</option>
+                  <option value="Lexus">Lexus</option>
+                  <option value="Mazda">Mazda</option>
+                  <option value="Mitsubishi">Mitsubishi</option>
+                  <option value="Nissan">Nissan</option>
+                  <option value="Peaugeot">Peugeot</option>
+                  <option value="Subaru">Subaru</option>
+                  <option value="Suzuki">Suzuki</option>
+                  <option value="Toyota">Toyota</option>
+                  <option value="Volkswagen">Volkswagen</option>
+                </select>
                 <br><small></small>
               </div>
             </div>
             
-            <!-- Car Model -->
-            <div class="control-group">
-              <label class="control-label" for="car-model">Car Model</label>
-              <div class="controls">
-                <input type="text" class="input-xlarge" id="car-model" name="model">
-                <br><small></small>
-              </div>
-            </div>
 
             <!-- Car Year -->
             <div class="control-group dropdown show">
-              <label class="control-label ml-4" for="car-year">Car Year</label>
+              <label class="control-label ml-7" for="car-year">Car Year</label>
               <div class="controls">
-                <select type="month" class="input-xlarge" id="car-year" name="year"></select>
+                <select class="form-control input-xlarge" id="car-year" name="year"></select>
                 <br><small></small>
               </div>
             </div>
@@ -68,10 +79,17 @@
                     var currentYear = (new Date()).getFullYear();
             
                     //Loop and add the Year values to DropDownList.
-                    for (var i = currentYear; i >= 1950; i--) {
+                    for (var i = 9999; i >= 1950; i--) {
                         var option = document.createElement("OPTION");
-                        option.innerHTML = i;
-                        option.value = i;
+                        if (i == 9999){
+                          option.innerHTML = 'None';
+                          option.value = 'None';
+                          i = currentYear;
+                        }else {
+                          option.innerHTML = i;
+                          option.value = i;
+                        }
+                        
                         ddlYears.appendChild(option);
                     }
                 };
@@ -80,7 +98,16 @@
             <div class="control-group">
               <label class="control-label" for="car-color">Car Color</label>
               <div class="controls">
-                <input type="Car Color" class="input-medium" id="car-color" name="carColor">
+                <select  class="form-control input-medium" id="car-color" name="carColor">
+                  <option value="None">None</option>
+                  <option value="Blue" style="background-color: blue">Blue</option>
+                  <option value="Red"  style="background-color: rgb(255, 0, 0)">Red</option>
+                  <option value="Green"  style="background-color: rgb(0, 255, 34)">Green</option>
+                  <option value="Grey"  style="background-color: rgb(112, 117, 113)">Grey</option>
+                  <option value="Yellow"  style="background-color: rgb(222, 255, 36)">Yellow</option>
+                  <option value="Black"  style="background-color: rgb(0, 0, 0)">Black</option>
+                  <option value="White"  style="background-color: rgb(255, 255, 255)">White</option>
+                </select>
                 <br><small></small>
               </div>
             </div>
@@ -90,7 +117,7 @@
             <!--  Form Actions -->
             <div class="form-actions">
               <button type="submit" class="btn btn-secondary mt-4" id="submitBtn">Submit</button>
-              <button type="reset" class="btn mt-4">Cancel</button>
+              <a href="/" class="btn mt-4">Skip</a>
             </div>
           </fieldset>
         </form>

@@ -92,7 +92,8 @@
               <div class="controls">
                 <label class="radio">
                   <input type="radio" value="male" name="gender" id="register-male">Male</label>
-                <label class="radio"><input type="radio" value="female" name="gender" id="register-female">Female<br><small></small></label>
+                <label class="radio">
+                  <input type="radio" value="female" name="gender" id="register-female">Female<br><small></small></label>
                 
               </div>
             </div>
@@ -101,14 +102,14 @@
              
             <!--  Form Actions -->
             <div class="form-actions">
-              <button type="submit" class="btn btn-primary" id="submitBtn" > Submit</button>
+              <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
               <button type="reset" class="btn">Cancel</button>
             </div>
           </fieldset>
         </form>
-      {{#if message}}
-        <h4 class="alert alert-danger mt-4">{{message}}</h4>
-      {{/if}}
+        {{#if message}}
+                <h6 class="alert alert-danger mt-1">{{message}}</h6>
+        {{/if}}
     </div>
   
     {{!-- <script src="script1.js"></script> --}}

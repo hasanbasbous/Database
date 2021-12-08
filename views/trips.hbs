@@ -24,29 +24,28 @@
   <header id="admin-header-driving">
     <h2>Driving</h2>
     <p>Upcoming trips for which you are driving. Use this section to approve or deny ride requests, manage, and plan your trip details.</p>
-    <a href="/share"><i class='icon-plus'></i> New Trip</a>
+    <a href="/share" class="btn btn-secondary"><i class='icon-plus'></i> New Trip</a>
   </header>
   <table class="table table-bordered table-hover trips" id="trips-driving-table">
     <thead>
       <tr>
-        <th class="departure">Departure</th>
+        <th class="departure">Departure Date and Time</th>
         <th class="origin">Origin</th>
         <th class="destination">Destination</th>
         <th class="riders">Riders</th>
-        {{!-- <th class="action">Action</th> --}}
+        <th class="action">Action</th>
       </tr>
     </thead>
     <tbody id="trips-driving">
     
-        
         {{!-- <td id="trips-driving-status" colspan="5">
           <img id="trips-driving-loader" class="loader" src="/img/ajaxloader.gif">
           <em id="trips-driving-msg" style="display: none;">There are no upcoming trips for which you are driving.</em>
         </td> --}}
-        {{#each result0}}
+        {{#each results}}
         {{!-- {{#eq "this.license" "1"}} --}}
           <tr>
-            <td>{{dateFormat this.date "dddd  MMM, D,   YYYY"}}</td>
+            <td>{{this.date}} {{this.time}}</td>
             <td>{{this.source}}</td>
             <td>{{this.destination}}</td>
           </tr>
@@ -77,14 +76,15 @@
           <img id="trips-riding-loader" class="loader" src="/img/ajaxloader.gif">
           <em id="trips-riding-msg" style="display: none;">There are no upcoming trips for which you are riding with someone.</em>
         </td> --}}
-        {{#each result1}}
+        {{#each results}}
+        {{#if this.tripId}}
           <tr>
             <td>{{this.date}}</td>
             <td>{{this.source}}</td>
             <td>{{this.destination}}</td>
-            
+            <td>{{this.status}}</td>
           </tr>
-          
+          {{/if}}
         {{/each}}
         
     </tbody>

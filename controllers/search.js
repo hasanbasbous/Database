@@ -15,9 +15,9 @@ exports.search = (req, res) => {
     let query;
     if(date.length === 0)
         
-        query = "SELECT * FROM trip WHERE source= '" + src + "' AND destination = '"+ dst + "' AND driverId != '" + req.session.userId + "'";
+        query = "SELECT * FROM Trips WHERE source= '" + src + "' AND destination = '"+ dst + "'";
     else 
-        query = "SELECT * FROM trip WHERE source= '" + src + "' AND destination = '"+ dst + "' AND date='" + date + "'";
+        query = "SELECT * FROM Trips WHERE source= '" + src + "' AND destination = '"+ dst + "' AND date='" + date + "'";
     // console.log(typeof(from))
     // console.log(to)
 

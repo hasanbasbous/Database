@@ -5,7 +5,6 @@ const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_USER,
     password: '',
-    multipleStatements: true,
     database: process.env.DATABASE
 })
 
@@ -15,7 +14,7 @@ router.get('/', (req, res) => {
     if(req.session.loggedin){
         console.log(req.session.loggedin)
         console.log(req.session.email)
-        db.query('Select * FROM user WHERE email = ?', [req.session.email], async(error, results) => {
+        db.query('Select * FROM users WHERE email = ?', [req.session.email], async(error, results) => {
             if(error)
                 console.log(error);
             else {
@@ -26,11 +25,12 @@ router.get('/', (req, res) => {
                 console.log('>>json: ', json);
                 console.log('>> user.name: ', json[0].fname);
                 req.session.list = json;
-                req.session.userId = json[0].id; //this should be id not Id
+                req.session.userId = json[0].id;
                 console.log(req.session.userId);
-                res.render('index', {
-fname: req.session.list[0].fname, lname: req.session.list[0].lname, email: req.session.list[0].email, password: req.session.list[0].password,
+                res.render('index', {fname: req.session.list[0].fname, lname: req.session.list[0].lname, 
+                    email: req.session.list[0].email, password: req.session.list[0].password,
                     phoneNumber: req.session.list[0].phoneNumber, driversLicenseId: req.session.list[0].license, gender: req.session.list[0].gender.toUpperCase()});
+
             }
         })
     } else {
@@ -54,14 +54,9 @@ router.get('/userEdit', (req, res) => {
             var statusM = "unchecked"
             var statusF = "checked"
         }
-        res.render('userEdit', {
-            fname: req.session.list[0].fname, lname: req.session.list[0].lname, 
-            email: req.session.list[0].email, password: req.session.list[0].password,
-            phoneNumber: req.session.list[0].phoneNumber, 
-            driversLicenseId: req.session.list[0].license, 
-            statusM: statusM, 
-            statusF: statusF
-        });
+        res.render('userEdit', {fname: req.session.list[0].fname, lname: req.session.list[0].lname, 
+                                email: req.session.list[0].email, password: req.session.list[0].password,
+                                phoneNumber: req.session.list[0].phoneNumber, driversLicenseId: req.session.list[0].license, statusM: statusM, statusF: statusF});
     }else
         res.render('login');
 })
@@ -81,41 +76,31 @@ router.get('/login', (req, res) => {
 });
 
 router.get('/search', (req, res) => {
-    if(req.session.loggedin)
+    if(req.session.loggedin){
      res.render('search');
-    else 
+    }else 
      res.render('login')
 })
 
-router.get('/share', (req, res) => {
-    if(req.session.loggedin)
-     res.render('share');
-    else 
-     res.render('login')
-})
 
 router.get('/trips', (req, res) => {
    if(req.session.loggedin) {
     console.log(req.session.userId);
     console.log(req.session.list[0].fname);
     const{id} = req.body;
-    let query = "SELECT * FROM trip WHERE driverId = '" + req.session.userId + "'";
-    let query1 = "SELECT * FROM user WHERE id = '" + req.session.userId + "'";
-    db.query("SELECT * FROM trip WHERE driverId = '" + req.session.userId + "'; SELECT * FROM trip, requests WHERE id = tripId AND userId = '" + req.session.userId + "'", (error, results) => {
+    let query = "SELECT * FROM trips WHERE driverId='" + req.session.userId + "'";
+    db.query(query, (error, results) => {
         if(error){
             console.log(error);
         } else {
-            // console.log(results[0]);
-            console.log(results[0]);
-            console.log("Results 1")
-            console.log(results[1]);
+            console.log(results);
             res.render('trips', {
-                result0: results[0], result1: results[1]
+                results
             });
         }
     })}
     else 
-        res.redirect('/login')
+        res.render('login')
 })
 
 
