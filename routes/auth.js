@@ -4,6 +4,7 @@ const searchController = require('../controllers/search');
 const tripsController = require('../controllers/trips')
 const loginController = require('../controllers/login')
 const shareController = require('../controllers/share')
+const carEditController = require('../controllers/carEdit');
 
 const userEditController = require('../controllers/userEdit');
 const carController = require('../controllers/car');
@@ -18,6 +19,12 @@ router.post('/share', shareController.share)
 
 router.post('/userEdit', userEditController.userEdit)
 router.post('/car', carController.car)
+
+router.post('/bookingcancel', tripsController.bookingcancel)
+router.post('/tripcancel', tripsController.tripcancel)
+
+router.post('/carEdit', carEditController.carEdit)
+router.post('/carEdit2', carEditController.carEdit2)
 
 
 

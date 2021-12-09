@@ -6,6 +6,7 @@ const db = mysql.createConnection({
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_USER,
     password: '',
+    multipleStatements: true,
     database: process.env.DATABASE
 })
 
@@ -63,7 +64,7 @@ exports.share = (req, res) => {
                         if (s > d){
                             while(s >= d){
                                 console.log('entered')
-                                db.query ( "INSERT INTO passingthrough SET ?", {stopID: s ,rideID: tripId},  
+                                db.query ( "INSERT INTO passingthrough SET ?; UPDATE trip SET direction = 0 WHERE id = '" + tripId + "'", {stopID: s ,rideID: tripId},  
                                 (error, results) => {
                                     if(error){
                                         console.log(error);
@@ -77,7 +78,7 @@ exports.share = (req, res) => {
                         else if(s<d){   
                             while(s<=d){
                                 console.log('entered')
-                                db.query ( "INSERT INTO passingthrough SET ?", {stopID: s ,rideID: tripId},  
+                                db.query ( "INSERT INTO passingthrough SET ?; UPDATE trip SET direction = 1 WHERE id = ?", [{stopID: s ,rideID: tripId}, tripId ],
                                 (error, results) => {
                                     if(error){
                                         console.log(error);

@@ -12,20 +12,18 @@ const db = mysql.createConnection({
 exports.car = (req, res) => {
     console.log(req.body);
 
-    const { plateNum, email,  model, modelConfirm, phoneNumber, driversLicenseId, gender} = req.body;
+    const { plateNum, carBrand, year, carColor} = req.body;
 
-    db.query("SELECT plateNum FROM car WHERE plateNumber = ?", [plateNum], async (error, results) => {
+    db.query("SELECT plateNumber FROM car WHERE plateNumber = ?", [plateNum], async (error, results) => {
         if(error){
             console.log(error);
         }
-        const namePattern = /^[A-Za-z]+$/;
-        const licensePattern = /^[0-9]{9}$/;
         const platePattern = /^[A|B|G|K|M|N|O|S|T|Y|Z][0-9]{3,7}$/;
-
+        var currentYear = (new Date()).getFullYear();
         if(plateNum.length == 0){
             return res.render('car', {
-                message: 'First name can not be blank'
-            });
+                message: 'Plate Number can not be empty'
+            })
         } else if(!platePattern.test(plateNum)){
             return res.render('car', {
                 message: 'Plate Number has an invalid form'
@@ -34,48 +32,41 @@ exports.car = (req, res) => {
             return res.render('car', {
                 message: 'That plate number is already in use'
             });
-        } else if(model){
+        } else if(carBrand == 'None'){
             return res.render('car', {
-                message: 'Email has an invalid form'
+                message: 'Car Brand is not chosen'
             });
-        } else if(model.length == 0){
+        } else if(year.length == 0){
             return res.render('car', {
-                message: 'model can not be blank'
+                message: 'Car Year can not be empty'
             });
-        }
-        else if(model !== modelConfirm){
+        } else if((year < 1950)| (year > currentYear)){
             return res.render('car', {
-                message: 'models do not match'
+                message: 'Car Year is not in range of 1950 and ' + currentYear 
             });
-        } else if(!phonePattern.test(phoneNumber)){
+        } else if(carColor == 'None'){
             return res.render('car', {
-                message: 'Phone number should be 8 digtis'
+                message: 'Car Color is not chosen'
             });
-        }
-        else if (driversLicenseId.length !== 0){
-            if(!licensePattern.test(driversLicenseId)){
-                return res.render('car', {
-                    message: 'License should be nine digits'
-                });
+       }
+       
+       db.query("UPDATE car SET status = 0 WHERE userId = ?", [req.session.userId],  (error, results) => {
+            if(error){
+                console.log(error)
+            } else {
+                console.log(JSON.parse(JSON.stringify(results)))
             }
-            
-        } else if (gender !== 'male' && gender !== 'female'){
-            return res.render('car', {
-                message: 'You must choose a gender'
-            });
-        }
-        
+       })
+
         // let hashedmodel = await bcrypt.hash(model, 8);
         // console.log(hashedmodel);
 
-        db.query('INSERT INTO users SET ?', {plateNum: plateNum, lname: lname, Email: email, model: model, phoneNumber: phoneNumber, license: driversLicenseId, 
-        gender: gender}, (error, results) => {
+        db.query('INSERT INTO car SET ?', {plateNumber: plateNum, carBrand: carBrand, year: year, carColor: carColor, status: 1, userId: req.session.userId}, (error, results) => {
             if(error){
                 console.log(error);
             } else {
                 console.log(results);
-                return res.redirect('/car', {
-                });
+                return res.redirect('/');
             }
         })
     });

@@ -26,17 +26,27 @@ router.get('/', (req, res) => {
                 console.log('>>json: ', json);
                 console.log('>> user.name: ', json[0].fname);
                 req.session.list = json;
-                req.session.userId = json[0].id; //this should be id not Id
-                console.log(req.session.userId);
-                res.render('index', {
-fname: req.session.list[0].fname, lname: req.session.list[0].lname, email: req.session.list[0].email, password: req.session.list[0].password,
-                    phoneNumber: req.session.list[0].phoneNumber, driversLicenseId: req.session.list[0].license, gender: req.session.list[0].gender.toUpperCase()});
+                req.session.userId = json[0].id;
+                console.log(">> USER ID: "+req.session.userId);
+                db.query('Select * From car WHERE userId = ' + [req.session.userId]+ " ORDER BY status DESC, year DESC", (error, resultsTwo) => {
+                    if(error)
+                        console.log(error);
+                    else {
+                        console.log(">> results two: ", JSON.parse(JSON.stringify(resultsTwo)))
+                        res.render('index', {resultsTwo, fname: req.session.list[0].fname, lname: req.session.list[0].lname, 
+                            email: req.session.list[0].email, password: req.session.list[0].password,
+                            phoneNumber: req.session.list[0].phoneNumber, driversLicenseId: req.session.list[0].license, gender: req.session.list[0].gender.toUpperCase()});
+                    }
+                })
+                
+
             }
         })
     } else {
         res.render("login")
     }
 });
+
 
 router.get('/car', (req, res) => {
     if(req.session.loggedin)
@@ -96,29 +106,42 @@ router.get('/share', (req, res) => {
      res.render('login')
 })
 
+
 router.get('/trips', (req, res) => {
-   if(req.session.loggedin) {
-    console.log(req.session.userId);
-    console.log(req.session.list[0].fname);
-    const{id} = req.body;
-    let query = "SELECT * FROM trip WHERE driverId = '" + req.session.userId + "'";
-    let query1 = "SELECT * FROM user WHERE id = '" + req.session.userId + "'";
-    db.query("SELECT * FROM trip WHERE driverId = '" + req.session.userId + "'; SELECT * FROM trip, requests WHERE id = tripId AND userId = '" + req.session.userId + "'", (error, results) => {
+    if(req.session.loggedin) {
+     console.log(req.session.userId);
+     console.log(req.session.list[0].fname);
+     const{id} = req.body;
+     let query = "SELECT * FROM trip WHERE driverId='" + req.session.userId + "'";
+     db.query(query, (error, resultsOne) => {
         if(error){
             console.log(error);
-        } else {
-            // console.log(results[0]);
-            console.log(results[0]);
-            console.log("Results 1")
-            console.log(results[1]);
-            res.render('trips', {
-                result0: results[0], result1: results[1]
-            });
+        }else {
+            console.log(resultsOne);
+            let query2 = "SELECT source,destination,date,S.id AS stID,T.id AS trID, B.estTime FROM seat S, booking B, trip T WHERE S.id = B.seatID AND T.id=S.rideID AND date>=CURRENT_DATE AND B.userID='"+req.session.userId+"' ORDER BY trID";
+            db.query(query2, (error, resultsTwo) => {
+                if(error){
+                    console.log(error);
+                }else {
+                    console.log(">> Number" + resultsTwo);
+                    res.render('trips', {
+                        resultsTwo,resultsOne
+                    });
+                }
+            })
         }
-    })}
+    })
+    }
     else 
-        res.redirect('/login')
-})
+        res.render('login')
+ })
+
+ router.get('/carEdit', (req, res) => {
+    if(req.session.loggedin)
+        res.render('carEdit');
+    else
+        res.render('login');
+});
 
 
 module.exports = router;

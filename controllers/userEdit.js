@@ -21,7 +21,6 @@ exports.userEdit = (req, res) => {
             var statusM = "unchecked"
             var statusF = "checked"
         }
-    console.log('hasan')
     console.log(req.session.userId)
     db.query(`SELECT email FROM user WHERE id != ${req.session.userId} AND email = ?`, [email] , async(error, results) => {
         if(error){

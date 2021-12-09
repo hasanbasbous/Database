@@ -57,13 +57,13 @@
           </div> --}}
 
           <div>
-              <label class="control-label">From</label>
+              <label class="control-label">To</label>
               <div>
               <select id="to" name= "dst">
                 <option value="Byblos, Lebanon">Byblos</option>
                 <option value="Jounieh, Lebanon">Jounieh</option>
                 <option value="Antelias, Lebanon">Antelias</option>
-                <option value="Daoura, Lebaonn">Daoura</option>
+                <option value="Daoura, Lebanon">Daoura</option>
                 <option value="Beirut, Lebanon">Beirut</option>
             </select>
             </div>
@@ -88,7 +88,7 @@
               <div class="input-append time" id="search-departure-time">
                {{!-- <input class="span8" size="16" type="text" >
                  <span class="add-on"><i class="fas fa-calendar-week"></i></span> --}}
-                 <input type="time" name='time' value="22:00">
+                 <input type="time" name='time'>
               </div>
             </div>
           </div>
@@ -126,11 +126,11 @@
           <h4>Search Results</h4>
           <div>
             {{#if results}}
-            <form action='trips' method="post">
+            <form action='/auth/trips' method="post">
             <table class = 'table table-stripped'>
             <thead>
               <tr>
-                <th> id</th>
+                {{!-- <th> id</th> --}}
                 <th> From </th>
                 <th> To </th>
                 <th> date</th>
@@ -141,11 +141,12 @@
             </thead>
             {{#each results}}
             <tr>
-              <td>{{this.id}}</td>
+              {{!-- <td>{{this.id}}</td> --}}
               <td> {{this.source}} </td>
                <td> {{this.destination}} </td>
-               <td>{{this.date}}</td>
+               <td> {{dateFormat this.date "dddd  MMM, D,   YYYY "}}</td>
                <td> {{this.time}}</td>
+               <td> {{this.NBofSeatsAV}}</td>
                <td><button type="submit" class="btn" name="tripId" value="{{this.id}}">Request</input></td>
               <!-- no need to know which user clicked the button because it's in the session.userId --> 
               <!-- I can't use id attr with td tag --> 
