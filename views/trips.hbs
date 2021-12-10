@@ -71,8 +71,9 @@
       <tr>
         <th class="departure">Departure</th>
         <th class="origin">Origin</th>
+        <th class="rider_orign">Rider Location</th>
         <th class="destination">Destination</th>
-        <th class="status">Request Status</th>
+        <th class="arrival_time">Driver arrival to your location at</th>
       </tr>
     </thead>
     <tbody id="trips-riding">
@@ -95,8 +96,12 @@
           <tr>
             <td>{{dateFormat this.date "dddd  MMM, D,   YYYY"}}</td>
             <td>{{this.source}}</td>
+            <td>{{this.riderLoc}} </td>
             <td>{{this.destination}}</td>
+            <td>{{this.time}} + {{this.estTime}}mins</td>
+            <form action="/auth/feedback" method="POST">
             <td><button type="submit" class="btn btn-secondary" name="feedback" value="{{this.trID}}">Feedback</input></td>
+            </form>
             <form action="/auth/bookingcancel" method = "POST" > 
             <td><button type="submit" class="btn btn-secondary" name="cancel" value="{{this.stID}}">Cancel</input></td>
             </form>

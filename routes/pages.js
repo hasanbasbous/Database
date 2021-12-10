@@ -106,6 +106,13 @@ router.get('/share', (req, res) => {
      res.render('login')
 })
 
+router.get('/feedback', (req, res) => {
+    if(req.session.loggedin)
+     res.render('feedback');
+    else 
+     res.redirect('/login');
+})
+
 
 router.get('/trips', (req, res) => {
     if(req.session.loggedin) {
@@ -118,7 +125,7 @@ router.get('/trips', (req, res) => {
             console.log(error);
         }else {
             console.log(resultsOne);
-            let query2 = "SELECT source,destination,date,S.id AS stID,T.id AS trID, B.estTime FROM seat S, booking B, trip T WHERE S.id = B.seatID AND T.id=S.rideID AND date>=CURRENT_DATE AND B.userID='"+req.session.userId+"' ORDER BY trID";
+            let query2 = "SELECT source,destination,time, date,S.id AS stID,T.id AS trID, B.estTime, B.stop AS riderLoc FROM seat S, booking B, trip T WHERE S.id = B.seatID AND T.id=S.rideID AND date>=CURRENT_DATE AND B.userID='"+req.session.userId+"' ORDER BY trID";
             db.query(query2, (error, resultsTwo) => {
                 if(error){
                     console.log(error);

@@ -9,6 +9,8 @@ const carEditController = require('../controllers/carEdit');
 const userEditController = require('../controllers/userEdit');
 const carController = require('../controllers/car');
 
+const feedbackController = require('../controllers/feedback');
+
 const router = express.Router();
 
 router.post('/register', authController.register)
@@ -26,6 +28,8 @@ router.post('/tripcancel', tripsController.tripcancel)
 router.post('/carEdit', carEditController.carEdit)
 router.post('/carEdit2', carEditController.carEdit2)
 
+router.post('/feedback', feedbackController.feedback)
+router.post('/sendfeedback', feedbackController.sendfeedback)
 
 
 module.exports = router;

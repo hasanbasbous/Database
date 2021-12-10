@@ -1,0 +1,135 @@
+<DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <link rel="stylesheet" href="/style.css">
+        <title>Document</title>
+    </head>
+
+    <body>
+        <nav>
+            {{!-- <h4>Node MySQL</h4> --}}
+            {{!-- <ul>
+                <li><a href="/search">Search</a></li>
+            </ul>
+            <ul>
+                <li><a href="/trips">Trips</a></li>
+            </ul>
+            <ul>
+                <li><a href="/">Home</a></li> --}}
+                {{!-- <ul>
+                    <li><a href="/login">Login</a></li>
+                </ul> --}}
+                {{!-- <li><a href="/car">Register</a></li>
+            </ul> --}}
+        </nav>
+
+        <div class="container-narrow">
+            <!-- Main hero unit for a primary marketing message or call to action -->
+            <form class="form-horizontal well" id="car" action="/auth/carEdit2" method="post">
+                <fieldset>
+                    <legend>Car Editing Form <a href="/" class="btn btn-secondary">Exit</a></legend>
+
+                    <!-- Plate Number -->
+                    <div class="control-group">
+                        <label class="control-label" for="car-plate-num">Plate Number format</label>
+                        <div class="controls">
+                            <input readonly style="text-align: center;" type="text" class="form-control input-large" id="car-plate-num" name="plateNum"
+                                value={{plateNum}}>
+                            <br><small></small>
+                        </div>
+                    </div>
+
+                    <!-- Car Brand -->
+                    <div class="control-group dropdown show">
+                        <label class=" control-label" for="car-brand">Car Brand</label>
+                        <div class="controls">
+                            <select  class="form-control input-large" id="car-brand" name="carBrand">
+                                <option value={{carBrand}}>{{carBrand}}</option>
+                                <option value="BMW">BMW</option>
+                                <option value="Daewoo">Daewoo</option>
+                                <option value="Ford">Ford</option>
+                                <option value="Holden">Holden</option>
+                                <option value="Honda">Honda</option>
+                                <option value="Hyndai">Hyundai</option>
+                                <option value="Mercedes">Mercedes</option>
+                                <option value="Kia">Kia</option>
+                                <option value="Lexus">Lexus</option>
+                                <option value="Mazda">Mazda</option>
+                                <option value="Mitsubishi">Mitsubishi</option>
+                                <option value="Nissan">Nissan</option>
+                                <option value="Peaugeot">Peugeot</option>
+                                <option value="Subaru">Subaru</option>
+                                <option value="Suzuki">Suzuki</option>
+                                <option value="Toyota">Toyota</option>
+                                <option value="Volkswagen">Volkswagen</option>
+                            </select>
+                            <br><small></small>
+                        </div>
+                    </div>
+
+                    <!-- Car Year -->
+                    <div class="control-group dropdown show">
+                        <label class="control-label ml-7" for="car-year">Car Year</label>
+                        <div class="controls">
+                            <input class="form-control" value={{year}} type="number" id="car-year" name="year" placeholder="car year...">
+                            <br><small></small>
+                        </div>
+                    </div>
+
+                    
+                    <!--  Car Color -->
+                    <div class="control-group">
+                        <label class="control-label" for="car-color">Car Color</label>
+                        <div class="controls">
+                            <select type="text" class="form-control input-medium" id="car-color" name="carColor">
+                                <option value={{carColor}} style="background-color: {{carColor}}">{{carColor}}</option>
+                                <option value="Blue" style="background-color: blue">Blue</option>
+                                <option value="Red" style="background-color: rgb(255, 0, 0)">Red</option>
+                                <option value="Green" style="background-color: rgb(0, 255, 34)">Green</option>
+                                <option value="Grey" style="background-color: rgb(112, 117, 113)">Grey</option>
+                                <option value="Yellow" style="background-color: rgb(222, 255, 36)">Yellow</option>
+                                <option value="Black" style="background-color: rgb(0, 0, 0)">Black</option>
+                                <option value="White" style="background-color: rgb(255, 255, 255)">White</option>
+                            </select>
+                            <br><small></small>
+                             <script type="javascript">
+                                function update() {
+                                    var s = document.getElementById("car-color");
+                                    s.value = {{ @carColor }};
+                                }
+
+                                update();
+                            </script>
+                        </div>
+                        {{#if status}}
+                            <input type="checkbox"  class="mr-2"  name="status" checked>  Use Car
+                        {{else}}  
+                            <input type="checkbox"  class="mr-2"  name="status" >  Use Car  
+                        {{/if}}
+                    </div>
+
+                   
+                    <!-- Submit button  -->
+
+                    <!--  Form Actions -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-secondary mt-4" id="submitBtn">Update</button>
+                        <button type="reset" class="btn mt-4">Reset</button>
+                    </div>
+                </fieldset>
+            </form>
+            {{#if message}}
+            <h6 class="alert alert-danger mt-1">{{message}}</h6>
+            {{/if}}
+        </div>
+
+        {{!--
+        <script src="script1.js"></script> --}}
+    </body>
+
+    </html>

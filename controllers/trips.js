@@ -105,7 +105,7 @@ exports.display = (req, res) => {
                                             q = JSON.parse(JSON.stringify(results))
                                             estTime = q[0].estTime
                                             console.log(estTime)
-                                            db.query("INSERT INTO booking SET ?",{userID: req.session.userId, estTime: estTime, stop: req.session.dst, seatID:reservedSeat }, (error, results) => {
+                                            db.query("INSERT INTO booking SET ?",{userID: req.session.userId, estTime: estTime, stop: req.session.src, seatID:reservedSeat }, (error, results) => {
                                                 if(error){
                                                     console.log("userId " + userId)
                                                     console.log(error);
@@ -117,7 +117,7 @@ exports.display = (req, res) => {
                                         })
                                 }
                              } else {
-                                db.query("INSERT INTO booking SET ?",{userID: req.session.userId, estTime: 2, stop: req.session.dst, seatID:reservedSeat }, (error, results) => {
+                                db.query("INSERT INTO booking SET ?",{userID: req.session.userId, estTime: 2, stop: req.session.src, seatID:reservedSeat }, (error, results) => {
                                     if(error){
                                         console.log("userId " + userId)
                                         console.log(error);
