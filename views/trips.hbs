@@ -43,19 +43,23 @@
           <img id="trips-driving-loader" class="loader" src="/img/ajaxloader.gif">
           <em id="trips-driving-msg" style="display: none;">There are no upcoming trips for which you are driving.</em>
         </td> --}}
-        {{#each resultsOne}}
+        {{#each resultsOne}}  
         {{!-- {{#eq "this.license" "1"}} --}}
           <tr>
             <td>{{dateFormat this.date "dddd  MMM, D,   YYYY "}}{{this.time}}</td>
             <td>{{this.source}}</td>
             <td>{{this.destination}}</td>
+            <form action="/auth/tripviewPassengers" method = "POST" > 
+            <td><button type="submit" class="btn btn-secondary" name="view" value="{{this.id}}">View Riders</input></td>
+            </form>
             <form action="/auth/tripcancel" method = "POST" > 
             <td><button type="submit" class="btn btn-secondary" name="cancel" value="{{this.id}}">Cancel</input></td>
             </form>
-
+            
           </tr>
-        {{!-- {{/eq}}  --}}
+          
         {{/each}}
+        
       
       
     </tbody>
@@ -74,6 +78,9 @@
         <th class="rider_orign">Rider Location</th>
         <th class="destination">Destination</th>
         <th class="arrival_time">Driver arrival to your location at</th>
+        <th class="driver_name">Driver Name</th>
+        <th class="driver_phoneNb">Driver phone</th>
+        <th class="car_info">Car Description</th>
       </tr>
     </thead>
     <tbody id="trips-riding">
@@ -99,6 +106,9 @@
             <td>{{this.riderLoc}} </td>
             <td>{{this.destination}}</td>
             <td>{{this.time}} + {{this.estTime}}mins</td>
+            <td>{{this.fname}} {{this.lname}}</td>
+            <td>{{this.phoneNumber}}</td>
+            <td>{{this.carColor}} {{this.carBrand}} {{this.year}} {{this.plateNumber}}</td>
             <form action="/auth/feedback" method="POST">
             <td><button type="submit" class="btn btn-secondary" name="feedback" value="{{this.trID}}">Feedback</input></td>
             </form>

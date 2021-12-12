@@ -52,8 +52,7 @@ exports.display = (req, res) => {
                     console.log("Results: "+results)
                     console.log("Reserved Seat Results: "+reservedSeat)
                     //res.redirect('/trips')
-                    console.log("I am inside trip.js displaying session.dst " + req.session.dst)
-                    console.log("session.src " + req.session.src);
+
                   
                     //double query to get the stopIds
                     var trip_src; 

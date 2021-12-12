@@ -1,0 +1,53 @@
+<DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <nav></nav>
+<div class="container container-fluid">
+  <header id="admin-header-driving">
+    <h2>Passengers</h2>
+    <p>Passengers that you will be picking up, with their pickup points, names and phone numbers</p>
+    <a href="/trips"><i class='icon-plus'></i> Trips</a>
+  </header>
+  <table class="table table-bordered table-hover trips" id="trips-driving-table">
+    <thead>
+      <tr>
+        <th class="name">Name</th>
+        <th class="phone">Phone</th>
+        <th class="stop">Pickup</th>
+      </tr>
+    </thead>
+    <tbody id="trips-driving">
+    
+        
+        {{!-- <td id="trips-driving-status" colspan="5">
+          <img id="trips-driving-loader" class="loader" src="/img/ajaxloader.gif">
+          <em id="trips-driving-msg" style="display: none;">There are no upcoming trips for which you are driving.</em>
+        </td> --}}
+        {{#each results}}  
+        {{!-- {{#eq "this.license" "1"}} --}}
+          <tr>
+            <td>{{fname}} {{lname}}</td>
+            <td>{{this.phoneNumber}}</td>
+            <td>{{this.stop}}</td>
+          </tr>
+          
+        {{/each}}
+        
+      
+      
+    </tbody>
+  </table>
+
+
+
+
+</div>
+</body>
+</html>

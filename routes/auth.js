@@ -11,6 +11,8 @@ const carController = require('../controllers/car');
 
 const feedbackController = require('../controllers/feedback');
 
+const viewPassengersController = require('../controllers/viewPassenger');
+
 const router = express.Router();
 
 router.post('/register', authController.register)
@@ -30,6 +32,8 @@ router.post('/carEdit2', carEditController.carEdit2)
 
 router.post('/feedback', feedbackController.feedback)
 router.post('/sendfeedback', feedbackController.sendfeedback)
+
+router.post('/tripviewPassengers', viewPassengersController.displayPassengers)
 
 
 module.exports = router;

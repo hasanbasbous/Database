@@ -1,3 +1,4 @@
+const { json } = require('express');
 const express = require('express');
 const mysql = require("mysql");
 
@@ -125,15 +126,38 @@ router.get('/trips', (req, res) => {
             console.log(error);
         }else {
             console.log(resultsOne);
-            let query2 = "SELECT source,destination,time, date,S.id AS stID,T.id AS trID, B.estTime, B.stop AS riderLoc FROM seat S, booking B, trip T WHERE S.id = B.seatID AND T.id=S.rideID AND date>=CURRENT_DATE AND B.userID='"+req.session.userId+"' ORDER BY trID";
+            let query2 = "SELECT source,destination,time, date,S.id AS stID,T.id AS trID, B.estTime, B.stop AS riderLoc, T.driverId, U.*, C.* "
+             + "FROM seat S, booking B, trip T, user U, car C WHERE S.id = B.seatID AND T.id=S.rideID AND U.id = T.driverId AND C.userId = T.driverId " 
+             + "AND C.status = 1 AND date>=CURRENT_DATE AND B.userID='"+req.session.userId+"' ORDER BY trID";
+
+            // let query2 = "SELECT T.*, B.*, U.* FROM trip T, seat S, user U, booking B WHERE S.id = B.seatID AND T.id = S.rideID "
+            // + " AND T.driverId = '" + req.session.userId + "' AND U.id = B.userID";
+
             db.query(query2, (error, resultsTwo) => {
                 if(error){
                     console.log(error);
                 }else {
-                    console.log(">> Number" + resultsTwo);
+
+                    var q = JSON.parse(JSON.stringify(resultsTwo));
+                    console.log(q)
                     res.render('trips', {
-                        resultsTwo,resultsOne
-                    });
+                        resultsTwo, resultsOne
+                     });
+                    // db.query("SELECT U.*, B.* FROM trip T, seat S, user U, booking B WHERE " +
+                    // "T.id = S.rideID  AND S.id = B.seatID AND S.status = 'reserved' AND B.userID = U.id AND T.driverId = '" + req.session.userId + "'", (error, resultsThree) => {
+                    //     if(error)
+                    //         console.log(error)
+
+                    //     console.log(JSON.parse(JSON.stringify(resultsThree)))
+
+                    //     res.render('trips', {
+                    //        resultsThree, resultsTwo, resultsOne
+                    //     });
+                    // })
+
+
+                    
+                    
                 }
             })
         }
