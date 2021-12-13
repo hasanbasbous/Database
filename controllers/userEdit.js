@@ -87,9 +87,9 @@ exports.userEdit = (req, res) => {
                 console.log(error);
             } else {
                 console.log(results);
-                return res.render('index', {fname, lname, email,
-                    phoneNumber, driversLicenseId, gender: gender.toUpperCase()
-                });
+                // return res.render('index', {fname, lname, email,
+                //     phoneNumber, driversLicenseId, gender: gender.toUpperCase()});
+                res.redirect('/');
             }
         })
     });

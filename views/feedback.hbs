@@ -24,33 +24,50 @@
       </ul>
     </nav>
 
-    <div class="container-narrow ">
+    <div class="container mt-50">
       <!-- Main hero unit for a primary marketing message or call to action -->
       <form action="/auth/sendfeedback" method="POST">
         <fieldset>
-          <legend>Feedback Form </legend>
+          <legend>Feedback Form <a href="/trips" class="btn btn-secondary">Return</a>
+          </legend>
 
           <!-- Rating -->
           <div class="control-group">
             <label class="control-label" for="feedback-comment">Rating</label>
-            <div class="controls">
-              <label class="radio"><input type="radio" value="1" name="rating" id="rating-1" >1</label>
-              <label class="radio"><input type="radio" value="2" name="rating" id="rating-2"
-                  >2<br><small></small></label>
-              <label class="radio"><input type="radio" value="3" name="rating" id="rating-3"
-                  >3<br><small></small></label>
-              <label class="radio"><input type="radio" value="4" name="rating" id="rating-4"
-                  >4<br><small></small></label>
-              <label class="radio"><input type="radio" value="5" name="rating" id="rating-5"
-                  >5<br><small></small></label>
+            <div class="controls row" style="width: max-content; margin-left:auto; margin-right:auto">
+              <div class="col">
+                <label class="radio" style="font-size:larger"><input style="-webkit-transform: scale(2)" type="radio" style="font-size:larger" value="1"
+                    name="rating" id="rating-1">
+                  1<br><small></small></label>
+              </div>
+              <div class="col">
+                <label class="radio" style="font-size:larger"><input style="-webkit-transform: scale(2)" type="radio" style="font-size:larger" value="2"
+                    name="rating" id="rating-2">
+                  2<br><small></small></label>
+              </div>
+              <div class="col">
+                <label class="radio" style="font-size:larger"><input style="-webkit-transform: scale(2)" type="radio" style="font-size:larger" value="3"
+                    name="rating" id="rating-3">
+                  3<br><small></small></label>
+              </div>
+              <div class="col">
+                <label class="radio" style="font-size:larger"><input style="-webkit-transform: scale(2)" type="radio" style="font-size:larger" value="4"
+                    name="rating" id="rating-4">
+                  4<br><small></small></label>
+              </div>
+              <div class="col">
+                <label class="radio" style="font-size:larger"><input style="-webkit-transform: scale(2)" type="radio" style="font-size:larger" value="5"
+                    name="rating" id="rating-5">
+                  5<br><small></small></label>
+              </div>
             </div>
           </div>
 
           <!-- Comments -->
-          <div class="control-group">
-            <label class="control-label" for="feedback-comment">Comment</label>
+          <div class="control-group mt-4">
+            <label class="control-label" for="feedback-comment">Comments</label>
             <div class="controls">
-              <textarea type="text" class="input-xlarge from-control" id="userEdit-drivers-license-id" name="comment"
+              <textarea type="text" class="input-xlarge form-control" id="userEdit-drivers-license-id" name="comment"
                 value={{driversLicenseId}}></textarea>
               <br><small></small>
             </div>
@@ -58,23 +75,18 @@
 
           <!-- Submit button  -->
           <!--  Form Actions -->
-          <div class="form-actions mt-3 ">
-            <div class="row">
-              <div class="col">
-                <button type="submit" class="btn btn-secondary">Send</input>
-              </div>
-              <div class="col">
-                <a href="/" class="btn btn-secondary">Return</a>
-              </div>
-            </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-secondary">Send</input>
           </div>
-        </fieldset>
-      </form>
-      {{#if message}}
-      <h3 class="alert alert-danger mt-4">
-        {{message}}
-      </h3>
-      {{/if}}
+
+    </div>
+    </fieldset>
+    </form>
+    {{#if message}}
+    <h3 class="alert alert-danger mt-4">
+      {{message}}
+    </h3>
+    {{/if}}
     </div>
   </body>
 
